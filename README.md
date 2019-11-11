@@ -100,13 +100,13 @@ serverless invoke local -f margininfo --data '{"method": "grid", "args": [0.6, 3
 
 # Save SVG
 serverless invoke local -f margininfo --data '{"method": "scalebar", "args": [50000, true, true, true] }' \
-  | json body > scalebar.svg
+  | json body > test/serverless/scalebar.svg
 
 serverless invoke local -f margininfo --data '{"method": "slope", "args":[50000, 40] }' \
-  | json body > slope.svg
+  | json body > test/serverless/slope.svg
 
 serverless invoke local -f margininfo --data '{"method": "grid", "args": [0.6, 3.6, "2016", "11S", "black"] }' \
-  | json body > grid.svg
+  | json body > test/serverless/grid.svg
 ```
 
 #### Testing from the `aws` command line
@@ -115,11 +115,16 @@ To set up a Lambda Function on AWS, start with their excellent tutorial at: http
 
 * From the Lambda Management Console, Create a Function, and set its name to `margin-info`
   * Set the Runtime as `Node.js 10.x`
+  * Set the Handler to `index.margininfo`.  For example, `index.margininfo` calls `exports.margininfo` in `index.js`
   * In the `Function code` section, add the following files from into the AWS function code.  The AWS console or `aws` cli likely has a way to upload a zip file
     * `dist/index.js`
     * `dist/griddeclinationdiagram.js`
     * `dist/scalebar.js`
     * `dist/slopeguide.js`
+  * To test on AWS Lambda, click on *Configure Test Events*, and add the following test structures.  See also the JSON test structures in `test/aws`
+    * `grid` - `{"method":"grid","args":[0.6,3.6,"2016","11S","black"]}`
+    * `scalebar` - `{"method":"scalebar","args":[50000,true,true,true]}`
+    * `slopeguide` - `{"method":"slope","args":[50000,40]}`
 
 <img alt="README-aws-lambda.png" src="assets/README-aws-lambda.png" width="640" height="" >
 
@@ -129,6 +134,9 @@ To set up a Lambda Function on AWS, start with their excellent tutorial at: http
 # AWS commands
 npm install aws-sdk -g  # for `aws`
 npm install json -g     # for `json`
+
+# Test our AWS Lambda server
+cd dist/test/aws
 
 # list your lambda functions on your AWS accoutns
 aws lambda list-functions
@@ -147,9 +155,9 @@ aws lambda invoke --function-name margin-info \
   aws-lambda-response-grid.json
 
 # extract the SVG from the response
-cat aws-lambda-response-scalebar.json | json body > test/scalebar.svg
-cat aws-lambda-response-slope.json | json body > test/slope.svg
-cat aws-lambda-response-grid.json | json body > test/grid.svg
+cat aws-lambda-response-scalebar.json | json body > scalebar.svg
+cat aws-lambda-response-slope.json | json body > slope.svg
+cat aws-lambda-response-grid.json | json body > grid.svg
 ```
 
 ## License and Contact

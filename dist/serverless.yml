@@ -15,7 +15,7 @@ provider:
 # The `functions` block defines what code to deploy
 functions:
   margininfo:
-    handler: handler.margininfo
+    handler: index.margininfo
     # The `events` block defines how to trigger the handler.margininfo code
     events:
       - http:
