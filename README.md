@@ -111,8 +111,21 @@ serverless invoke local -f margininfo --data '{"method": "grid", "args": [0.6, 3
 
 #### Testing from the `aws` command line
 
-```
+To set up a Lambda Function on AWS, start with their excellent tutorial at: https://aws.amazon.com/getting-started/tutorials/run-serverless-code/
 
+* From the Lambda Management Console, Create a Function, and set its name to `margin-info`
+  * Set the Runtime as `Node.js 10.x`
+  * In the `Function code` section, add the following files from into the AWS function code.  The AWS console or `aws` cli likely has a way to upload a zip file
+    * `dist/handler.js`
+    * `dist/griddeclinationdiagram.js`
+    * `dist/scalebar.js`
+    * `dist/slopeguide.js`
+
+<img alt="README-aws-lambda.png" src="assets/README-aws-lambda.png" width="640" height="" >
+
+---
+
+```
 # AWS commands
 npm install aws-sdk -g  # for `aws`
 npm install json -g     # for `json`
@@ -134,9 +147,9 @@ aws lambda invoke --function-name margin-info \
   aws-lambda-response-grid.json
 
 # extract the SVG from the response
-cat aws-lambda-response-scalebar.json | json body > scalebar.svg
-cat aws-lambda-response-slope.json | json body > slope.svg
-cat aws-lambda-response-grid.json | json body > grid.svg
+cat aws-lambda-response-scalebar.json | json body > test/scalebar.svg
+cat aws-lambda-response-slope.json | json body > test/slope.svg
+cat aws-lambda-response-grid.json | json body > test/grid.svg
 ```
 
 ## License and Contact
