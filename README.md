@@ -116,7 +116,7 @@ To set up a Lambda Function on AWS, start with their excellent tutorial at: http
 * From the Lambda Management Console, Create a Function, and set its name to `margin-info`
   * Set the Runtime as `Node.js 10.x`
   * In the `Function code` section, add the following files from into the AWS function code.  The AWS console or `aws` cli likely has a way to upload a zip file
-    * `dist/handler.js`
+    * `dist/index.js`
     * `dist/griddeclinationdiagram.js`
     * `dist/scalebar.js`
     * `dist/slopeguide.js`
